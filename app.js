@@ -3,7 +3,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const path = require('path');
+// const path = require('path');
 const { limiter } = require('./helpers/rate-limit');
 const { HttpCode } = require('./helpers/constants');
 
