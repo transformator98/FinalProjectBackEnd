@@ -4,18 +4,18 @@ GET: /auth/user
       
 RESPONSE 200:
 > {
-    "status": 200,
-    "data": {
-        "email": "test@gmail.com",
-        "name": "test",
-        "avatar": "https://s.gravatar.com/avatar/1aedb8d9dc4751e229a335e371db8058?s=250",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNmFjOGI4OTEyZWU0YTc4M2YzZWNmOSIsImlhdCI6MTYxNzYxMTE2MywiZXhwIjoxNjE3NjE4MzYzfQ.QUge2wSHuzmPSDMobEdn7jmRv4HzxNaXMynZAdpyqnE"
+    "status": 200,  
+    "data": {. 
+        "email": "test@gmail.com",  
+        "name": "test",  
+        "avatar": "https://s.gravatar.com/avatar/1aedb8d9dc4751e229a335e371db8058?s=250",  
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNmFjOGI4OTEyZWU0YTc4M2YzZWNmOSIsImlhdCI6MTYxNzYxMTE2MywiZXhwIjoxNjE3NjE4MzYzfQ.QUge2wSHuzmPSDMobEdn7jmRv4HzxNaXMynZAdpyqnE" 
     }
 }
 
 
-POST: /auth/register
-      > body: {
+POST: /auth/register 
+      > body: { 
           "email": "test@gmail.com",
           "password": "hello!"
       }
