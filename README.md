@@ -1,6 +1,6 @@
 
 GET: /auth/user
-      > Authentication: Bearer *token*
+> Authentication: Bearer *token*
       
 RESPONSE 200:
 > {
