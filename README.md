@@ -1,9 +1,9 @@
 
 GET: /auth/user
-      Authentication: Bearer *token*
+      > Authentication: Bearer *token*
       
 RESPONSE 200:
-{
+> {
     "status": 200,
     "data": {
         "email": "test@gmail.com",
@@ -15,7 +15,7 @@ RESPONSE 200:
 
 
 POST: /auth/register
-      body: {
+      > body: {
           "email": "test@gmail.com",
           "password": "hello!"
       }
