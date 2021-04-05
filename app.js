@@ -11,6 +11,7 @@ const { httpCode } = require('./helpers/constants');
 require('dotenv').config();
 
 const authRouter = require('./routes/api/auth');
+const testsRouter = require('./routes/tests');
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(express.json());
 // app.use(limiter);
 
 app.use('/auth', authRouter);
-// app.use('/tests', testsRouter);
+app.use('/tests', testsRouter);
 
 app.use((req, res) => {
   res.status(httpCode.NOT_FOUND).json({ message: 'Not found' });
