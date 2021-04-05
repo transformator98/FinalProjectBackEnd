@@ -3,7 +3,8 @@ GET: /auth/user
 > Authentication: Bearer *token*
       
 RESPONSE 200:
->     {
+>     
+     {
       "status": 200,  
       "data": { 
             "email": "test@gmail.com",  
