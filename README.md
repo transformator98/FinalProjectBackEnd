@@ -1,4 +1,3 @@
-## Endpoints Snapshot
 
 GET: /auth/user
       Authentication: Bearer *token*
@@ -55,4 +54,3 @@ POST: /auth/logout
 RESPONSE 204: 
     {
     }
-
