@@ -13,7 +13,7 @@ RESPONSE 200:
     }
 }
 
---------------------
+
 POST: /auth/register
       body: {
           "email": "test@gmail.com",
@@ -30,7 +30,7 @@ RESPONSE 201:
               "avatar": "https://s.gravatar.com/avatar/1aedb8d9dc4751e229a335e371db8058?s=250"
           }
       }
---------------------
+
 POST: /auth/login
       body: {
           "email": "test@gmail.com",
@@ -47,7 +47,8 @@ RESPONSE 200:
             "name": "test"
         }
     }
---------------------
+    
+    
 POST: /auth/logout
       Authentication: Bearer *token*
       
