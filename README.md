@@ -1,4 +1,33 @@
-<<<<<<< HEAD
+GET: https://intense-stream-90411.herokuapp.com/auth/user
+
+> Authentication: Bearer _token_
+
+RESPONSE 200:
+
+>
+
+     {
+      "status": 200,
+      "data": {
+            "email": "test@gmail.com",
+            "name": "test",
+            "avatar": "https://s.gravatar.com/avatar/1aedb8d9dc4751e229a335e371db8058?s=250",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNmFjOGI4OTEyZWU0YTc4M2YzZWNmOSIsImlhdCI6MTYxNzYxMTE2MywiZXhwIjoxNjE3NjE4MzYzfQ.QUge2wSHuzmPSDMobEdn7jmRv4HzxNaXMynZAdpyqnE"
+              }
+      }
+
+POST: https://intense-stream-90411.herokuapp.com/auth/register
+
+>
+
+      body: {
+            "email": "test@gmail.com",
+            "password": "hello!"
+            }
+
+RESPONSE 201:
+
+>
 
 =======
 
@@ -31,7 +60,7 @@ POST: https://intense-stream-90411.herokuapp.com/auth/register
 
 RESPONSE 201:
 
->
+> > > > > > > 61a366abafcee61d115057f1e1045ca09ea7e9d5
 
       {
             "status": "success",
@@ -44,18 +73,30 @@ RESPONSE 201:
       }
 
 POST: https://intense-stream-90411.herokuapp.com/auth/login
+<<<<<<< HEAD
 
 >
+
+=======
+
+> > > > > > > 61a366abafcee61d115057f1e1045ca09ea7e9d5
 
       body: {
             "email": "test@gmail.com",
             "password": "hello!"
       }
 
+<<<<<<< HEAD
 
 RESPONSE 200:
 
 >
+
+=======
+
+RESPONSE 200:
+
+> > > > > > > 61a366abafcee61d115057f1e1045ca09ea7e9d5
 
       {
             "status": "success",
@@ -66,6 +107,29 @@ RESPONSE 200:
             "name": "test"
             }
       }
+
+<<<<<<< HEAD
+
+POST: https://intense-stream-90411.herokuapp.com/auth/logout
+
+>
+
+      Authentication: Bearer *token*
+
+RESPONSE 204:
+
+>
+
+      {
+      }
+
+GET: https://intense-stream-90411.herokuapp.com/tests/technicalQA
+
+RESPONSE 200:
+
+>
+
+=======
 
 POST: https://intense-stream-90411.herokuapp.com/auth/logout
 
@@ -86,7 +150,7 @@ GET: https://intense-stream-90411.herokuapp.com/tests/technicalQA
 
 RESPONSE 200:
 
->
+> > > > > > > 61a366abafcee61d115057f1e1045ca09ea7e9d5
 
       {
             "status": "success",
@@ -100,12 +164,21 @@ RESPONSE 200:
             }
       }
 
+<<<<<<< HEAD
 
 GET: https://intense-stream-90411.herokuapp.com/tests/testingTheory
 
 RESPONSE 200:
 
 >
+
+=======
+
+GET: https://intense-stream-90411.herokuapp.com/tests/testingTheory
+
+RESPONSE 200:
+
+> > > > > > > 61a366abafcee61d115057f1e1045ca09ea7e9d5
 
       {
             "status": "success",
@@ -118,4 +191,8 @@ RESPONSE 200:
             }, {}, ...]
       }
 
+<<<<<<< HEAD
+
+> > > > > > > # 61a366abafcee61d115057f1e1045ca09ea7e9d5
+> > > > > > >
 > > > > > > > 61a366abafcee61d115057f1e1045ca09ea7e9d5
