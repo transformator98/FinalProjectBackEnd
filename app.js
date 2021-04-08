@@ -3,7 +3,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 
-// const path = require('path');
+const path = require('path');
 
 // const { limiter } = require("./helpers/rate-limit");
 const { httpCode } = require('./helpers/constants');
@@ -22,7 +22,9 @@ app.get('env') !== 'test' && app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 // app.use(limiter);
-
+app.use('/link', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/link.html')); // strings 25-27 is temporary added
+});
 app.use('/auth', authRouter);
 app.use('/tests', testsRouter);
 
