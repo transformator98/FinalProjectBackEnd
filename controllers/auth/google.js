@@ -1,8 +1,10 @@
+const jwt = require('jsonwebtoken');
 const queryString = require('query-string');
 const axios = require('axios');
+const Users = require('../../model/users');
 const { createFromGoogle, findByEmail } = require('../../model/users');
-// const {login} = require('../')
-// const URL = require("url");
+const { httpCode } = require('../../helpers/constants');
+const SECRET_KEY = process.env.JWT_SECRET;
 
 exports.googleAuth = async (req, res) => {
   const stringifiedParams = queryString.stringify({
@@ -45,23 +47,49 @@ exports.googleRedirect = async (req, res) => {
     },
   });
 
-  // const user = await findByEmail(userData.data.email);
-  // const body = {
-  //   email: userData.data.email,
-  //   password: userData.data.id,
-  // };
+  const googleUserId = userData.data.id;
+  const payload = { googleUserId };
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
 
-  // const userGoogleReg = await axios.post('/auth/register', body);
+  try {
+    const user = await findByEmail(userData.data.email);
+    if (!user) {
+      const googleUser = await createFromGoogle(userData.data);
+      const id = await googleUser.id;
+      console.log('USER ID', id);
+      await Users.updateToken(id, token);
+      res.status(httpCode.CREATED).json({
+        status: 'success',
+        code: httpCode.CREATED,
+        data: {
+          token,
+          email: googleUser.email,
+          name: googleUser.name,
+        },
+      });
+    }
 
-  // if (!user) {
-  //   createFromGoogle(userData.data);
-  // }
+    const idFromMongo = user._id;
+    await Users.updateToken(idFromMongo, token);
+    res.status(httpCode.OK).json({
+      status: 'success',
+      code: httpCode.OK,
+      data: {
+        token,
+        email: user.email,
+        name: user.name,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(httpCode.BAD_REQUEST).json({
+      message: 'Ошибка от Joi или другой валидационной библиотеки',
+    });
+  }
+
   // userData.data.email
   // ...
   // ...
   // ...
-  console.log('token', tokenData.data.access_token);
-  return res.redirect(
-    `${process.env.FRONTEND_URL}?email=${userData.data.email}`,
-  );
+  return res.redirect(`${process.env.FRONTEND_URL}?access-token=${token}`);
 };
