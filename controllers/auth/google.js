@@ -4,6 +4,7 @@ const axios = require('axios');
 const Users = require('../../model/users');
 const { createFromGoogle, findByEmail } = require('../../model/users');
 const { httpCode } = require('../../helpers/constants');
+require('dotenv').config();
 const SECRET_KEY = process.env.JWT_SECRET;
 
 exports.googleAuth = async (req, res) => {
@@ -28,6 +29,7 @@ exports.googleRedirect = async (req, res) => {
   const urlObj = new URL(fullUrl);
   const urlParams = queryString.parse(urlObj.search);
   const code = urlParams.code;
+
   const tokenData = await axios({
     url: `https://oauth2.googleapis.com/token`,
     method: 'post',
@@ -39,6 +41,7 @@ exports.googleRedirect = async (req, res) => {
       code,
     },
   });
+
   const userData = await axios({
     url: 'https://www.googleapis.com/oauth2/v2/userinfo',
     method: 'get',
@@ -53,43 +56,19 @@ exports.googleRedirect = async (req, res) => {
 
   try {
     const user = await findByEmail(userData.data.email);
-    if (!user) {
-      const googleUser = await createFromGoogle(userData.data);
-      const id = await googleUser.id;
-      console.log('USER ID', id);
-      await Users.updateToken(id, token);
-      res.status(httpCode.CREATED).json({
-        status: 'success',
-        code: httpCode.CREATED,
-        data: {
-          token,
-          email: googleUser.email,
-          name: googleUser.name,
-        },
-      });
+    if (user) {
+      const idFromMongo = user._id;
+      await Users.updateToken(idFromMongo, token);
     }
 
-    const idFromMongo = user._id;
-    await Users.updateToken(idFromMongo, token);
-    res.status(httpCode.OK).json({
-      status: 'success',
-      code: httpCode.OK,
-      data: {
-        token,
-        email: user.email,
-        name: user.name,
-      },
-    });
+    const googleUser = await createFromGoogle(userData.data);
+    const id = await googleUser.id;
+    await Users.updateToken(id, token);
+    return res.redirect(`${process.env.FRONTEND_URL}?accessToken=${token}`);
   } catch (error) {
     console.log(error);
     res.status(httpCode.BAD_REQUEST).json({
       message: 'Ошибка от Joi или другой валидационной библиотеки',
     });
   }
-
-  // userData.data.email
-  // ...
-  // ...
-  // ...
-  return res.redirect(`${process.env.FRONTEND_URL}?access-token=${token}`);
 };
