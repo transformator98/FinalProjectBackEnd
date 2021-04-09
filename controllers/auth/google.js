@@ -1,5 +1,7 @@
 const queryString = require('query-string');
 const axios = require('axios');
+const { createFromGoogle, findByEmail } = require('../../model/users');
+// const {login} = require('../')
 // const URL = require("url");
 
 exports.googleAuth = async (req, res) => {
@@ -42,6 +44,18 @@ exports.googleRedirect = async (req, res) => {
       Authorization: `Bearer ${tokenData.data.access_token}`,
     },
   });
+
+  // const user = await findByEmail(userData.data.email);
+  // const body = {
+  //   email: userData.data.email,
+  //   password: userData.data.id,
+  // };
+
+  // const userGoogleReg = await axios.post('/auth/register', body);
+
+  // if (!user) {
+  //   createFromGoogle(userData.data);
+  // }
   // userData.data.email
   // ...
   // ...
