@@ -1,0 +1,437 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "Hakaton project Testing",
+    "description": "Tests for QA and tech developers",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json", "multipart/form-data"], 
+  "produces": ["application/json"],
+  "servers": [{ "url": "http://localhost:3000" }],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+
+    {
+      "name": "Login",
+      "description": "Login endpoints"
+    },
+
+        {
+      "name": "Logout",
+      "description": "Logout endpoints"
+    },
+
+        {
+      "name": "Current user",
+      "description": "Current user endpoints"
+    },
+
+        {
+      "name": "technicalQA",
+      "description": "technicalQA endpoints"
+    },
+
+        {
+      "name": "testingTheory",
+      "description": "testingTheory endpoints"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/login": {
+      "post": {
+        "tags": ["Login"],
+        "summary": "User login",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Login's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully log in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "404": {
+            "description": "User with this credentials not registered",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/logout": {
+      "post": {
+        "tags": ["Logout"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Logout's object"
+        },
+        "responses": {
+          "200": {
+            "description": "User successfully log out"
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/user": {
+      "get": {
+        "tags": ["Current user"],
+        "summary": "current user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "description": "user's id"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Current user"
+        },
+        "responses": {
+          "200": {
+            "description": "User successfully found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "403": {
+            "description": "User is unauthorized",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/technicalQA": {
+      "get": {
+        "tags": ["technicalQA"],
+        "summary": "get 12 random technical QA questions",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Get technical questions"
+        },
+        "responses": {
+          "200": {
+            "description": "QA questions successfully received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "403": {
+            "description": "User is unauthorized",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/testingTheory": {
+      "get": {
+        "tags": ["testingTheory"],
+        "summary": "get random 12 testing theory questions",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "get  tests - theory questions"
+        },
+        "responses": {
+          "200": {
+            "description": "theory testing questions successfully received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "403": {
+            "description": "User is unauthorized",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "1@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        },
+        "example": [
+          { "email": "1@gmail.com", "password": "qwerty123" }
+        ]
+      },
+      "RegistrationResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email",
+              "example": "1@gmail.com"
+            },
+            "name": {
+              "type": "string",
+              "description": "User's name",
+              "format": "name",
+              "example": "John"
+            },
+            "avatar": {
+              "type": "string",
+              "description": "User's avatar",
+              "format": "avatar"
+            },
+            "userId": {
+              "type": "number",
+              "description": "User's id",
+              "example": "32143232436545474"
+            }
+          }
+        },
+        "example": [
+          { "email": "1@gmail.com", "name": "John", "avatar": "somepicture", "userId": "1" }
+        ]
+      },
+
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "1@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          },
+          "example": [
+          { "email": "1@gmail.com", "password": "qwerty123" }
+        ]
+        }
+      },
+      "LoginResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email",
+              "example": "1@gmail.com"
+            },
+            "name": {
+              "type": "string",
+              "description": "User's name",
+              "format": "name",
+              "example": "John"
+            },
+            "token": {
+              "type": "string",
+              "description": "User's token",
+              "format": "token",
+              "example": "35098237053479075223"
+            }
+          }
+        },
+        "example": [
+          { "email": "1@gmail.com", "name": "John", "token": "324323403739674590670673" }
+        ]
+      },
+
+      "CurrentUserResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email",
+              "example": "1@gmail.com"
+            },
+            "name": {
+              "type": "string",
+              "description": "User's name",
+              "format": "name",
+              "example": "John"
+            },
+            "avatar": {
+              "type": "string",
+              "description": "User's avatar",
+              "format": "avatar"
+            },
+            "token": {
+              "type": "string",
+              "description": "User's token",
+              "example": "32143232436545474"
+            }
+          }
+        },
+      "example": [
+          { "email": "1@gmail.com", "name": "John", "avatar": "somepicture", "token": "324323403739674590670673"}
+        ]
+      },
+
+      "TestResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "string",
+              "description": "question",
+              "format": "text"
+            },
+            "questionId": {
+              "type": "number",
+              "description": "question id",
+              "format": "text"
+            },
+            "answers": {
+              "type": "array",
+              "description": "array of questions",
+              "format": "array"
+            },
+            "rightAnswer": {
+              "type": "string",
+              "description": "right answer",
+              "format": "string"
+            }
+          }
+        },
+        "example": [
+            {
+              "question": "How many testing principles are there?",
+              "questionId": 1,
+              "answers": ["5", "6", "7", "8", "9", "I don't know"],
+              "rightAnswer": "7"
+            }
+        ]
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
