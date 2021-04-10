@@ -121,54 +121,26 @@ RESPONSE 201:
             "status": "success",
             "code": 201,
             "data": {
-                  "resultQA": {
+                  "result": {
                         "_id": "606f0c227bf51409ac9c8131",
-                        "userRA": [
+                        "checkedAnsw": [
                               {
                                     "_id": "606f0c227bf51409ac9c8132",
-                                    "answerId": 10,
-                                    "answer": "Kanban"
+                                    "questionId": 1,
+                                    "question": "What is formal testing",
+                                    "answer": "Verification of software, according to the test plan, test procedures and relevant documentation, taking into account the wishes of the client",
+                                    "rightAnswer": false
                               },
-                              {
-                                    "_id": "606f0c227bf51409ac9c8133",
-                                    "answerId": 14,
-                                    "answer": "All requirements must be known at the beginning of the project life cycle"
-                              }, {}, ...
-                        ],
-                        "owner": "606efa69db7ca41050be1c25"
-                  }
-            }
-      }
-
-GET: https://intense-stream-90411.herokuapp.com/tests/technicalQA/result
-
-> Authentication: Bearer _token_
-
-RESPONSE 200:
-
->
-
-      {
-            "status": "success",
-            "code": 200,
-            "data": {
-                  "resultQA": {
-                        "_id": "606f0c227bf51409ac9c8131",
-                        "userRA": [
                               {
                                     "_id": "606f0c227bf51409ac9c8132",
-                                    "answerId": 10,
-                                    "answer": "Kanban"
-                              },
-                              {
-                                    "_id": "606f0c227bf51409ac9c8133",
-                                    "answerId": 14,
-                                    "answer": "All requirements must be known at the beginning of the project life cycle"
+                                    "questionId": 2,
+                                    "question": "What is formal testing",
+                                    "answer": "Verification of software, according to the test plan, test procedures and relevant documentation, taking into account the wishes of the client",
+                                    "rightAnswer": true
                               }, {}, ...
                         ],
-                        "owner": {
-                              "email": "test@gmail.com"
-                        }
+                        "owner": "606efa69db7ca41050be1c25",
+                        "email": "test@gmail.com"
                   }
             }
       }
@@ -199,54 +171,26 @@ RESPONSE 201:
             "status": "success",
             "code": 201,
             "data": {
-                  "resultTheory": {
+                  "result": {
                         "_id": "606f0c227bf51409ac9c8131",
-                        "userRA": [
+                        "checkedAnsw": [
                               {
                                     "_id": "606f0c227bf51409ac9c8132",
-                                    "answerId": 10,
-                                    "answer": "Kanban"
+                                    "questionId": 1,
+                                    "question": "What is formal testing",
+                                    "answer": "Verification of software, according to the test plan, test procedures and relevant documentation, taking into account the wishes of the client",
+                                    "rightAnswer": false
                               },
-                              {
-                                    "_id": "606f0c227bf51409ac9c8133",
-                                    "answerId": 14,
-                                    "answer": "All requirements must be known at the beginning of the project life cycle"
-                              }, {}, ...
-                        ],
-                        "owner": "606efa69db7ca41050be1c25"
-                  }
-            }
-      }
-
-GET: https://intense-stream-90411.herokuapp.com/tests/testingTheory/result
-
-> Authentication: Bearer _token_
-
-RESPONSE 200:
-
->
-
-      {
-            "status": "success",
-            "code": 200,
-            "data": {
-                  "resultTheory": {
-                        "_id": "606f0c227bf51409ac9c8131",
-                        "userRA": [
                               {
                                     "_id": "606f0c227bf51409ac9c8132",
-                                    "answerId": 10,
-                                    "answer": "Kanban"
-                              },
-                              {
-                                    "_id": "606f0c227bf51409ac9c8133",
-                                    "answerId": 14,
-                                    "answer": "All requirements must be known at the beginning of the project life cycle"
+                                    "questionId": 2,
+                                    "question": "What is formal testing",
+                                    "answer": "Verification of software, according to the test plan, test procedures and relevant documentation, taking into account the wishes of the client",
+                                    "rightAnswer": true
                               }, {}, ...
                         ],
-                        "owner": {
-                              "email": "test@gmail.com"
-                        }
+                        "owner": "606efa69db7ca41050be1c25",
+                        "email": "test@gmail.com"
                   }
             }
       }
@@ -267,7 +211,6 @@ RESPONSE 200:
 
 POST: https://intense-stream-90411.herokuapp.com/emails
 
-
 RESPONSE 200:
 
 >
@@ -275,8 +218,8 @@ RESPONSE 200:
       {
             "message": "Email successfully sent!"
       }
-GET: https://intense-stream-90411.herokuapp.com/emails
 
+GET: https://intense-stream-90411.herokuapp.com/emails
 
 RESPONSE 200:
 
