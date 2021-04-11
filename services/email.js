@@ -45,7 +45,8 @@ class EmailService {
   }
 
   //  const body = {
-  //     // score: 90,
+  //     // total
+  //    correctAnswers
   //     questions:[
   //   {
   //     question:
@@ -73,14 +74,19 @@ class EmailService {
   //   };
   // const type = 'theory';
   // const email = 'artem.zimovets@gmail.com';
+
   async sendEmail(email, body) {
+
     // TODO count score
+    // подготовить answers
 
     const emailBody = this.#createTemplate(email, body);
     this.#sender.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
       to: email,
+
       from: "artwayprojects@gmail.com",
+
       subject: `Your score is ${body.total} %!`,
       html: emailBody,
     };
