@@ -50,21 +50,24 @@ exports.googleRedirect = async (req, res) => {
     },
   });
 
-  const googleUserId = userData.data.id;
-  const payload = { googleUserId };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
-
   try {
     const user = await findByEmail(userData.data.email);
     if (user) {
       const idFromMongo = user._id;
+      const payload = { idFromMongo };
+      const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
       await Users.updateToken(idFromMongo, token);
     }
 
     const googleUser = await createFromGoogle(userData.data);
+
     const id = await googleUser.id;
+    const payload = { id };
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
     await Users.updateToken(id, token);
-    return res.redirect(`${process.env.FRONTEND_URL}?accessToken=${token}`);
+    return res.redirect(
+      `${process.env.FRONTEND_URL}/auth/google?accessToken=${token}`,
+    );
   } catch (error) {
     console.log(error);
     res.status(httpCode.BAD_REQUEST).json({
