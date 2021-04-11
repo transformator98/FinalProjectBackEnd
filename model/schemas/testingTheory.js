@@ -3,7 +3,8 @@ const { Schema, model, SchemaTypes } = mongoose;
 
 const testingTheorySchema = new Schema(
   {
-    checkedAnsw: [
+    type: { type: String },
+    questions: [
       {
         questionId: {
           type: Number,
@@ -24,6 +25,8 @@ const testingTheorySchema = new Schema(
         },
       },
     ],
+    total: { type: Number },
+    correctAnswers: { type: Number },
     owner: {
       type: SchemaTypes.ObjectId,
       ref: "user",

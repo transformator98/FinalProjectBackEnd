@@ -10,9 +10,7 @@ const createResultTheory = async (req, res, next) => {
   try {
     const { id, email, name } = req.user;
     const userAnswers = req.body;
-    // const type = req.body;
-    const checkedAnsw = [];
-
+    const questions = [];
     const testsList = await TestsList.listAllTests(testingTheoryDb);
     const dataToCheck = testsList.map(
       ({ questionId, question, rightAnswer }) => ({
@@ -30,14 +28,14 @@ const createResultTheory = async (req, res, next) => {
             answer.userAnswer === data.rightAnswer
         )
       ) {
-        checkedAnsw.push({
+        questions.push({
           questionId: answer.questionId,
           question: answer.question,
           answer: answer.userAnswer,
           rightAnswer: true,
         });
       } else {
-        checkedAnsw.push({
+        questions.push({
           questionId: answer.questionId,
           question: answer.question,
           answer: answer.userAnswer,
@@ -46,8 +44,13 @@ const createResultTheory = async (req, res, next) => {
       }
     });
 
+    const correctAnswers = questions.filter((el) => el.rightAnswer === true);
+
     const testingTheory = await Testing.addResult({
-      checkedAnsw,
+      type: "testingTheory",
+      questions,
+      total: questions.length,
+      correctAnswers: correctAnswers.length,
       owner: id,
       email,
       name,
@@ -60,7 +63,13 @@ const createResultTheory = async (req, res, next) => {
         status: "success",
         code: httpCode.CREATED,
         data: {
-          testingTheory,
+          type: testingTheory.type,
+          questions: testingTheory.questions,
+          total: testingTheory.total,
+          correctAnswers: testingTheory.correctAnswers,
+          owner: testingTheory.owner,
+          mail: testingTheory.email,
+          name: testingTheory.name,
         },
       });
     } else {

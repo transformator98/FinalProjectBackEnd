@@ -10,9 +10,7 @@ const createResultQA = async (req, res, next) => {
   try {
     const { id, email, name } = req.user;
     const userAnswers = req.body;
-    // const type = req.body;
-    const checkedAnsw = [];
-
+    const questions = [];
     const testsList = await TestsList.listAllTests(technicalQADb);
     const dataToCheck = testsList.map(
       ({ questionId, question, rightAnswer }) => ({
@@ -30,14 +28,14 @@ const createResultQA = async (req, res, next) => {
             answer.userAnswer === data.rightAnswer
         )
       ) {
-        checkedAnsw.push({
+        questions.push({
           questionId: answer.questionId,
           question: answer.question,
           answer: answer.userAnswer,
           rightAnswer: true,
         });
       } else {
-        checkedAnsw.push({
+        questions.push({
           questionId: answer.questionId,
           question: answer.question,
           answer: answer.userAnswer,
@@ -46,8 +44,13 @@ const createResultQA = async (req, res, next) => {
       }
     });
 
+    const correctAnswers = questions.filter((el) => el.rightAnswer === true);
+
     const technicalQA = await Testing.addResult({
-      checkedAnsw,
+      type: "technicalQA",
+      questions,
+      total: questions.length,
+      correctAnswers: correctAnswers.length,
       owner: id,
       email,
       name,
@@ -61,7 +64,13 @@ const createResultQA = async (req, res, next) => {
         status: "success",
         code: httpCode.CREATED,
         data: {
-          technicalQA,
+          type: technicalQA.type,
+          questions: technicalQA.questions,
+          total: technicalQA.total,
+          correctAnswers: technicalQA.correctAnswers,
+          owner: technicalQA.owner,
+          mail: technicalQA.email,
+          name: technicalQA.name,
         },
       });
     } else {

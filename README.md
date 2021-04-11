@@ -121,27 +121,29 @@ RESPONSE 201:
             "status": "success",
             "code": 201,
             "data": {
-                  "result": {
-                        "_id": "606f0c227bf51409ac9c8131",
-                        "checkedAnsw": [
-                              {
-                                    "_id": "606f0c227bf51409ac9c8132",
-                                    "questionId": 1,
-                                    "question": "What is formal testing",
-                                    "answer": "Verification of software, according to the test plan, test procedures and relevant documentation, taking into account the wishes of the client",
-                                    "rightAnswer": false
-                              },
-                              {
-                                    "_id": "606f0c227bf51409ac9c8132",
-                                    "questionId": 2,
-                                    "question": "What is formal testing",
-                                    "answer": "Verification of software, according to the test plan, test procedures and relevant documentation, taking into account the wishes of the client",
+                  "type": "technicalQA",
+                  "questions": [
+                        {
+                               "_id": "606f0c227bf51409ac9c8132",
+                              "questionId": 1,
+                              "question": "What is formal testing",
+                              "answer": "Verification of software, according to the test plan, test procedures and relevant documentation, taking into account the wishes of the client",
+                              "rightAnswer": false
+                        },
+                        {
+                              "_id": "606f0c227bf51409ac9c8132",
+                              "questionId": 2,
+                              "question": "What is formal testing",
+                              "answer": "Verification of software, according to the test plan, test procedures and relevant documentation, taking into account the wishes of the client",
                                     "rightAnswer": true
-                              }, {}, ...
-                        ],
-                        "owner": "606efa69db7ca41050be1c25",
-                        "email": "test@gmail.com"
-                  }
+                        }, {}, ...
+                  ],
+                  "total": 4,
+                  "correctAnswers": 1,
+                  "owner": "606efa69db7ca41050be1c25",
+                  "email": "test@gmail.com"
+                  "name": "test"
+
             }
       }
 
@@ -171,27 +173,29 @@ RESPONSE 201:
             "status": "success",
             "code": 201,
             "data": {
-                  "result": {
-                        "_id": "606f0c227bf51409ac9c8131",
-                        "checkedAnsw": [
-                              {
-                                    "_id": "606f0c227bf51409ac9c8132",
-                                    "questionId": 1,
-                                    "question": "What is formal testing",
-                                    "answer": "Verification of software, according to the test plan, test procedures and relevant documentation, taking into account the wishes of the client",
-                                    "rightAnswer": false
-                              },
-                              {
-                                    "_id": "606f0c227bf51409ac9c8132",
-                                    "questionId": 2,
-                                    "question": "What is formal testing",
-                                    "answer": "Verification of software, according to the test plan, test procedures and relevant documentation, taking into account the wishes of the client",
+                  "type": "testingTheory",
+                  "questions": [
+                        {
+                               "_id": "606f0c227bf51409ac9c8132",
+                              "questionId": 1,
+                              "question": "What is formal testing",
+                              "answer": "Verification of software, according to the test plan, test procedures and relevant documentation, taking into account the wishes of the client",
+                              "rightAnswer": false
+                        },
+                        {
+                              "_id": "606f0c227bf51409ac9c8132",
+                              "questionId": 2,
+                              "question": "What is formal testing",
+                              "answer": "Verification of software, according to the test plan, test procedures and relevant documentation, taking into account the wishes of the client",
                                     "rightAnswer": true
-                              }, {}, ...
-                        ],
-                        "owner": "606efa69db7ca41050be1c25",
-                        "email": "test@gmail.com"
-                  }
+                        }, {}, ...
+                  ],
+                  "total": 4,
+                  "correctAnswers": 1,
+                  "owner": "606efa69db7ca41050be1c25",
+                  "email": "test@gmail.com"
+                  "name": "test"
+
             }
       }
 

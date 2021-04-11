@@ -3,7 +3,8 @@ const { Schema, model, SchemaTypes } = mongoose;
 
 const technicalQASchema = new Schema(
   {
-    checkedAnsw: [
+    type: { type: String },
+    questions: [
       {
         questionId: {
           type: Number,
@@ -24,6 +25,8 @@ const technicalQASchema = new Schema(
         },
       },
     ],
+    total: { type: Number },
+    correctAnswers: { type: Number },
     owner: {
       type: SchemaTypes.ObjectId,
       ref: "user",

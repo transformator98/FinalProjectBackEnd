@@ -1,20 +1,20 @@
-const sgMail = require('@sendgrid/mail');
-const Mailgen = require('mailgen');
-const config = require('../config/email.json');
-require('dotenv').config();
+const sgMail = require("@sendgrid/mail");
+const Mailgen = require("mailgen");
+const config = require("../config/email.json");
+require("dotenv").config();
 class EmailService {
   #sender = sgMail;
   #GenerateTemplate = Mailgen;
 
   constructor(env) {
     switch (env) {
-      case 'development':
+      case "development":
         this.link = config.dev;
         break;
-      case 'stage':
+      case "stage":
         this.link = config.stage;
         break;
-      case 'production':
+      case "production":
         this.link = config.prod;
         break;
       default:
@@ -23,22 +23,22 @@ class EmailService {
     }
   }
 
-  #createTemplate(data) {
+  #createTemplate(body) {
     const mailGenerator = new this.#GenerateTemplate({
-      theme: 'neopolitan',
+      theme: "neopolitan",
       product: {
-        name: data.title,
+        name: body.name,
         link: this.link,
       },
     });
     const template = {
       body: {
-        name: data.name,
-        intro: `Your score is ${data.score} %`,
+        name: body.name,
+        intro: `Your score is ${body.total} %`,
         table: {
-          data: data.questions,
+          data: body.questions,
         },
-        outro: 'Thank you for your answers!',
+        outro: "Thank you for your answers!",
       },
     };
     return mailGenerator.generate(template);
@@ -73,19 +73,19 @@ class EmailService {
   //   };
   // const type = 'theory';
   // const email = 'artem.zimovets@gmail.com';
-  async sendEmail(email, body, type) {
+  async sendEmail(email, body) {
     // TODO count score
 
-    const emailBody = this.#createTemplate(body);
+    const emailBody = this.#createTemplate(email, body);
     this.#sender.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
       to: email,
-      from: 'artwayprojects@gmail.com',
-      subject: `Your score is ${body.score} %!`,
+      from: "artwayprojects@gmail.com",
+      subject: `Your score is ${body.total} %!`,
       html: emailBody,
     };
     await this.#sender.send(msg);
-    require('fs').writeFileSync('./public/email.html', emailBody, 'utf8');
+    require("fs").writeFileSync("./public/email.html", emailBody, "utf8");
   }
 }
 
