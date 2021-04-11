@@ -22,10 +22,10 @@ const create = async ({ email, password }) => {
 
 const createFromGoogle = async (data) => {
   return await User.create({
-    googleAuth: true,
     name: data.given_name,
     email: data.email,
     password: data.id,
+    avatar: data.picture,
   });
 };
 

@@ -50,6 +50,8 @@ exports.googleRedirect = async (req, res) => {
     },
   });
 
+  console.log(userData.data);
+
   try {
     const user = await findByEmail(userData.data.email);
     if (user) {
@@ -66,7 +68,7 @@ exports.googleRedirect = async (req, res) => {
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
     await Users.updateToken(id, token);
     return res.redirect(
-      `${process.env.FRONTEND_URL}/auth/google?accessToken=${token}`,
+      `${process.env.FRONTEND_URL}/auth/google/?accessToken=${token}`,
     );
   } catch (error) {
     console.log(error);
