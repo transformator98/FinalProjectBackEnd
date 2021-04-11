@@ -66,7 +66,6 @@ exports.googleRedirect = async (req, res) => {
       );
     }
 
-    console.log('NOT USER');
     const googleUser = await createFromGoogle(userData.data);
     const id = await googleUser.id;
     const payload = { id };
