@@ -50,23 +50,29 @@ exports.googleRedirect = async (req, res) => {
     },
   });
 
-  console.log(userData.data);
-
   try {
     const user = await findByEmail(userData.data.email);
-    if (user) {
-      const idFromMongo = user._id;
-      const payload = { idFromMongo };
+    if (await user) {
+      console.log('USER', user);
+      const id = await user._id;
+      const userID = user.id;
+      console.log('idFromMongo', id);
+      console.log('userID', userID);
+      const payload = { id };
       const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
-      await Users.updateToken(idFromMongo, token);
+      await Users.updateToken(id, token);
+      return res.redirect(
+        `${process.env.FRONTEND_URL}/auth/google/?accessToken=${token}`,
+      );
     }
 
+    console.log('NOT USER');
     const googleUser = await createFromGoogle(userData.data);
-
     const id = await googleUser.id;
     const payload = { id };
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
     await Users.updateToken(id, token);
+
     return res.redirect(
       `${process.env.FRONTEND_URL}/auth/google/?accessToken=${token}`,
     );
