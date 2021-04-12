@@ -10,7 +10,7 @@ const SECRET_KEY = process.env.JWT_SECRET;
 exports.googleAuth = async (req, res) => {
   const stringifiedParams = queryString.stringify({
     client_id: process.env.GOOGLE_CLIENT_ID,
-    redirect_uri: `${process.env.BASE_URL}/auth/google-redirect`,
+    redirect_uri: `${process.env.BACKEND_BASE_URL}/auth/google-redirect`,
     scope: [
       'https://www.googleapis.com/auth/userinfo.email',
       'https://www.googleapis.com/auth/userinfo.profile',
@@ -53,16 +53,12 @@ exports.googleRedirect = async (req, res) => {
   try {
     const user = await findByEmail(userData.data.email);
     if (await user) {
-      console.log('USER', user);
       const id = await user._id;
-      const userID = user.id;
-      console.log('idFromMongo', id);
-      console.log('userID', userID);
       const payload = { id };
       const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
       await Users.updateToken(id, token);
       return res.redirect(
-        `${process.env.FRONTEND_URL}/auth/google/?accessToken=${token}`,
+        `${process.env.FRONTEND_BASE_URL}/auth/google/?accessToken=${token}`,
       );
     }
 
@@ -73,7 +69,7 @@ exports.googleRedirect = async (req, res) => {
     await Users.updateToken(id, token);
 
     return res.redirect(
-      `${process.env.FRONTEND_URL}/auth/google/?accessToken=${token}`,
+      `${process.env.FRONTEND_BASE_URL}/auth/google/?accessToken=${token}`,
     );
   } catch (error) {
     console.log(error);
