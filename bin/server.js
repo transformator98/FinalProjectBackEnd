@@ -3,7 +3,9 @@ const db = require('../model/db');
 
 require('dotenv').config();
 
-const PORT = process.env.PORT || 4000;
+
+const PORT = process.env.PORT || 3030;
+
 
 db.then(() => {
   app.listen(PORT, async () => {

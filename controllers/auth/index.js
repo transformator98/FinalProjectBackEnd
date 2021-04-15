@@ -38,6 +38,8 @@ const reg = async (req, res) => {
     const payload = { id };
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
 
+    await Users.updateToken(id, token);
+
     return res.status(httpCode.CREATED).json({
       status: 'success',
       code: httpCode.CREATED,

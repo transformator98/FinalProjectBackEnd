@@ -23,23 +23,28 @@ class EmailService {
     }
   }
 
-  #createTemplate(body) {
+  #createTemplate(body, subject) {
     const mailGenerator = new this.#GenerateTemplate({
       theme: 'neopolitan',
       product: {
-        name: body.name,
+        name: subject,
         link: this.link,
       },
     });
+
     const template = {
       body: {
         name: body.name,
-        intro: `Your score is ${body.total} %`,
-        table: {
-          data: body.questions,
-        },
-        outro: 'Thank you for your answers!',
+        intro: 'Your   test results',
+        table: body.questions.map(item => {
+          return {
+            title: item.question,
+            data: [{ answer: item.answer, correctAnswer: item.answer }],
+          };
+        }),
       },
+
+      outro: 'Thank you for your answers!',
     };
     return mailGenerator.generate(template);
   }
@@ -75,18 +80,20 @@ class EmailService {
   // const type = 'theory';
   // const email = 'artem.zimovets@gmail.com';
 
-  async sendEmail(email, body) {
+  async sendEmail(email, body, type = 'theory') {
+    console.log(body);
+    console.log(email);
+    console.log(type);
     // TODO count score
-    // подготовить answers
-
-    const emailBody = this.#createTemplate(body);
+    const score = (100 / body.total) * body.correctAnswers;
+    const subject = `Your ${type} test score is ${score} %!`;
+    console.log('subject is', subject);
+    const emailBody = this.#createTemplate(body, subject);
     this.#sender.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
       to: email,
-
       from: 'artwayprojects@gmail.com',
-
-      subject: `Your score is ${body.total} %!`,
+      subject: subject,
       html: emailBody,
     };
     await this.#sender.send(msg);
