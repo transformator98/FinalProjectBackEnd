@@ -1,30 +1,32 @@
 const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
-const uuid = require('uuid');
-require('dotenv').config();
-// const { tokens, secret } = process.env.JWT;
-const JWT_SECRET = process.env.JWT_SECRET;
-console.log('AUTH>>>>>>>>>>>>>'.secret);
+// const mongoose = require('mongoose');
+// const Token = mongoose.model('Token');
 
-const Token = mongoose.model('Token');
+const Token = require('../model/token');
+const uuid = require('uuid');
+
+const { tokens, secret } = require('../config/app').JWT;
 
 const generateAccessToken = userId => {
   const payload = {
     userId,
-    type: refresh,
-    // type: tokens.access.type,
+    type: tokens.access.type,
   };
-  // const options = { expiresIn: tokens.access.expiresIn };
-  const options = { expiresIn: '2h' };
-  return jwt.sign(payload, JWT_SECRET, options);
+  const options = { expiresIn: tokens.access.expiresIn };
+
+  return jwt.sign(payload, secret, options);
 };
 const generateRefreshToken = () => {
   const payload = {
-    userId: uuid(),
+    id: uuid(),
     type: tokens.refresh.type,
   };
-  const options = {};
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: '720h' });
+  const options = { expiresIn: tokens.refresh.expiresIn };
+
+  return {
+    id: payload.id,
+    token: jwt.sign(payload, secret, options),
+  };
 };
 
 const replaceDbRefreshToken = (tokenId, userId) => {

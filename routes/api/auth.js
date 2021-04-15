@@ -7,7 +7,7 @@ const {
   logout,
   currentUser,
   refreshTokens,
-} = require('../../controllers/auth');
+} = require('../..//controllers/auth');
 
 router.post('/register', reg);
 router.post('/refresh-token', refreshTokens);

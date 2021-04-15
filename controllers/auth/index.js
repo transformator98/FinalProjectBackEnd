@@ -1,23 +1,23 @@
 const jwt = require('jsonwebtoken');
 const Users = require('../../model/users');
 const { httpCode } = require('../../helpers/constants');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 // const uuid = require('uuid/v4');
 require('dotenv').config();
+// const Token = mongoose.model('Token');
+const Token = require('../../model/token');
+const { secret } = require('../../config/app');
+// const authHelper = require('../../helpers/authHelper');
+const SECRET_KEY = process.env.JWT_SECRET;
 
-// const { secret } = process.env.JWT;
-console.log('SECRET>>>>>>>>', process.env.JWT);
-const authHelper = require('../../helpers/authHelper');
-
-const updateToken = userId => {
-  const accessToken = authHelper.generateAccessToken(userId);
-  const refreshToken = authHelper.generateRefreshToken();
-  return authHelper.replaceDbRefreshToken(refreshToken.id, userId).then(() => ({
-    accessToken,
-    refreshToken: refreshToken.token,
-  }));
-};
-const Token = mongoose.model('Token');
+// const updateToken = userId => {
+//   const accessToken = authHelper.generateAccessToken(userId);
+//   const refreshToken = authHelper.generateRefreshToken();
+//   return authHelper.replaceDbRefreshToken(refreshToken.id, userId).then(() => ({
+//     accessToken,
+//     refreshToken: refreshToken.token,
+//   }));
+// };
 
 const reg = async (req, res) => {
   try {
@@ -33,10 +33,10 @@ const reg = async (req, res) => {
     }
 
     const newUser = await Users.create(req.body);
-    const userId = newUser.id;
-    const token = updateToken(userId).then(tokens => res.json(tokens));
-    // const payload = { id };
-    // const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
+    const id = newUser.id;
+    // const token = updateToken(userId).then(tokens => res.json(tokens));
+    const payload = { id };
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
 
     return res.status(httpCode.CREATED).json({
       status: 'success',
@@ -56,35 +56,6 @@ const reg = async (req, res) => {
   }
 };
 
-const refreshTokens = (req, res) => {
-  const { refreshToken } = req.body;
-  let payload;
-  try {
-    payload = jwt.verify(refreshToken, secret);
-    if (payload.type !== 'refresh') {
-      res.status(httpCode.BAD_REQUEST).json({ message: 'Invalid token!' });
-    }
-  } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
-      res.status(httpCode.BAD_REQUEST).json({ message: 'Token expired!' });
-    } else if (error instanceof jwt.JsonWebTokenError) {
-      res.status(httpCode.BAD_REQUEST).json({ message: 'Invalid token!' });
-    }
-  }
-  Token.findOne({ tokenId: payload.id })
-    .exec()
-    .then(token => {
-      if (token === null) {
-        throw new Error('Invalid token');
-      }
-      return updateToken(token.userId);
-    })
-    .then(tokens => res.json(tokens))
-    .catch(error =>
-      res.status(httpCode.BAD_REQUEST).json({ message: error.message }),
-    );
-};
-
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -97,11 +68,13 @@ const login = async (req, res) => {
         message: 'Email or password is wrong',
       });
     }
-    const userId = user._id;
-    // const payload = { id };
-    // const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
-    const token = updateToken(userId).then(tokens => res.json(tokens));
-    await Users.updateToken(userId, token);
+    // const userId = user._id;
+    const id = user._id;
+    const payload = { id };
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
+    // const token = updateToken(userId).then(tokens => res.json(tokens));
+    // await Users.updateToken(userId, token);
+    await Users.updateToken(id, token);
     res.status(httpCode.OK).json({
       status: 'success',
       code: httpCode.OK,
@@ -136,6 +109,34 @@ const currentUser = async (req, res) => {
       token,
     },
   });
+};
+const refreshTokens = (req, res) => {
+  const { refreshToken } = req.body;
+  let payload;
+  try {
+    payload = jwt.verify(refreshToken, secret);
+    if (payload.type !== 'refresh') {
+      res.status(httpCode.BAD_REQUEST).json({ message: 'Invalid token!' });
+    }
+  } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      res.status(httpCode.BAD_REQUEST).json({ message: 'Token expired!' });
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      res.status(httpCode.BAD_REQUEST).json({ message: 'Invalid token!' });
+    }
+  }
+  Token.findOne({ tokenId: payload.id })
+    .exec()
+    .then(token => {
+      if (token === null) {
+        throw new Error('Invalid token');
+      }
+      return updateToken(token.userId);
+    })
+    .then(tokens => res.json(tokens))
+    .catch(error =>
+      res.status(httpCode.BAD_REQUEST).json({ message: error.message }),
+    );
 };
 
 module.exports = {
