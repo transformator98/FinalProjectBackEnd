@@ -306,6 +306,7 @@
                   "application/json":{
                      "schema":{
                         "$ref":"#/components/schemas/postTestRequest"
+
                      }
                   }
                }
@@ -350,8 +351,10 @@
                   ]
                }
             ],
+
             "requestBody":{
                "description":"delete technical QA result"
+
             },
             "responses":{
                "200":{
@@ -379,6 +382,7 @@
             }
       }
       },
+
       "/tests/theory/random":{
          "get":{
             "tags":[
@@ -426,10 +430,13 @@
       },
       "/tests/theory":{
          "post":{
+
             "tags":[
                "testingTheory"
             ],
+
             "summary":"post user answers im testing theory questions",
+
             "parameters":[
                
             ],
@@ -440,6 +447,7 @@
                   ]
                }
             ],
+
                "requestBody":{
                "description":"Test theory object",
                "required":true,
@@ -461,6 +469,7 @@
                         }
                      }
                   }
+
                },
                "400":{
                   "description":"Bad request (invalid request body)",
@@ -475,12 +484,16 @@
                   }
                }
             }
+
          },
+
          "delete":{
             "tags":[
                "testingTheoryResult"
             ],
+
             "summary":"delete testing theory result",
+
             "parameters":[
                
             ],
@@ -492,7 +505,9 @@
                }
             ],
             "requestBody":{
+
                "description":"delete tests theory result"
+
             },
             "responses":{
                "200":{
