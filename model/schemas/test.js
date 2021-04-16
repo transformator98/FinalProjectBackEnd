@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema, model, SchemaTypes } = mongoose;
 
 const testsSchema = new Schema(
@@ -6,6 +6,7 @@ const testsSchema = new Schema(
     type: { type: String },
     questions: [
       {
+
         question: {
           type: String,
           // required: [true, "Question is required"],
@@ -13,10 +14,13 @@ const testsSchema = new Schema(
         answer: {
           type: String,
           // required: [true, "Answer is required"],
+
         },
         rightAnswer: {
           type: Boolean,
+
           // required: [true, "RightAnswer is required"],
+
         },
       },
     ],
@@ -24,14 +28,16 @@ const testsSchema = new Schema(
     correctAnswers: { type: Number },
     owner: {
       type: SchemaTypes.ObjectId,
-      ref: "user",
+      ref: 'user',
     },
     email: { type: String },
     name: { type: String },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
+
 const Tests = model("tests", testsSchema);
+
 
 module.exports = Tests;
