@@ -1,21 +1,13 @@
 const jwt = require('jsonwebtoken');
 const Users = require('../../model/users');
 const { httpCode } = require('../../helpers/constants');
-<<<<<<< HEAD
+
 const mongoose = require('mongoose');
 // const uuid = require('uuid/v4');
 require('dotenv').config();
 
 // const { secret } = process.env.JWT;
-=======
-// const mongoose = require('mongoose');
-// const uuid = require('uuid/v4');
-require('dotenv').config();
-// const Token = mongoose.model('Token');
-const Token = require('../../model/token');
-const { secret } = require('../../config/app');
-// const authHelper = require('../../helpers/authHelper');
->>>>>>> 8ec4c7bc473e4d152c84be481fcb4e950cedb405
+
 const SECRET_KEY = process.env.JWT_SECRET;
 console.log('SECRET>>>>>>>>', process.env.JWT);
 const authHelper = require('../../helpers/authHelper');
@@ -125,13 +117,7 @@ const login = async (req, res) => {
         message: 'Email or password is wrong',
       });
     }
-<<<<<<< HEAD
-    const userId = user._id;
-    // const payload = { id };
-    // const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '2h' });
-    const token = updateToken(userId).then(tokens => res.json(tokens));
-    await Users.updateToken(userId, token);
-=======
+
     // const userId = user._id;
     const id = user._id;
     const payload = { id };
@@ -139,7 +125,7 @@ const login = async (req, res) => {
     // const token = updateToken(userId).then(tokens => res.json(tokens));
     // await Users.updateToken(userId, token);
     await Users.updateToken(id, token);
->>>>>>> 8ec4c7bc473e4d152c84be481fcb4e950cedb405
+
     res.status(httpCode.OK).json({
       status: 'success',
       code: httpCode.OK,
@@ -175,34 +161,34 @@ const currentUser = async (req, res) => {
     },
   });
 };
-const refreshTokens = (req, res) => {
-  const { refreshToken } = req.body;
-  let payload;
-  try {
-    payload = jwt.verify(refreshToken, secret);
-    if (payload.type !== 'refresh') {
-      res.status(httpCode.BAD_REQUEST).json({ message: 'Invalid token!' });
-    }
-  } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
-      res.status(httpCode.BAD_REQUEST).json({ message: 'Token expired!' });
-    } else if (error instanceof jwt.JsonWebTokenError) {
-      res.status(httpCode.BAD_REQUEST).json({ message: 'Invalid token!' });
-    }
-  }
-  Token.findOne({ tokenId: payload.id })
-    .exec()
-    .then(token => {
-      if (token === null) {
-        throw new Error('Invalid token');
-      }
-      return updateToken(token.userId);
-    })
-    .then(tokens => res.json(tokens))
-    .catch(error =>
-      res.status(httpCode.BAD_REQUEST).json({ message: error.message }),
-    );
-};
+// const refreshTokens = (req, res) => {
+//   const { refreshToken } = req.body;
+//   let payload;
+//   try {
+//     payload = jwt.verify(refreshToken, secret);
+//     if (payload.type !== 'refresh') {
+//       res.status(httpCode.BAD_REQUEST).json({ message: 'Invalid token!' });
+//     }
+//   } catch (error) {
+//     if (error instanceof jwt.TokenExpiredError) {
+//       res.status(httpCode.BAD_REQUEST).json({ message: 'Token expired!' });
+//     } else if (error instanceof jwt.JsonWebTokenError) {
+//       res.status(httpCode.BAD_REQUEST).json({ message: 'Invalid token!' });
+//     }
+//   }
+//   Token.findOne({ tokenId: payload.id })
+//     .exec()
+//     .then(token => {
+//       if (token === null) {
+//         throw new Error('Invalid token');
+//       }
+//       return updateToken(token.userId);
+//     })
+//     .then(tokens => res.json(tokens))
+//     .catch(error =>
+//       res.status(httpCode.BAD_REQUEST).json({ message: error.message }),
+//     );
+// };
 
 module.exports = {
   reg,
