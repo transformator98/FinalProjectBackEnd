@@ -238,7 +238,7 @@
             }
          }
       },
-      "/tests/technicalQA":{
+      "/tests/technical/random":{
          "get":{
             "tags":[
                "technicalQA"
@@ -281,7 +281,9 @@
                   }
                }
             }
-         },
+         }
+      },
+      "/tests/technical":{
          "post":{
             "tags":[
                "technicalQA"
@@ -332,9 +334,52 @@
                   }
                }
             }
-         }
+         },
+                  "delete":{
+            "tags":[
+               "technicalQAResult"
+            ],
+            "summary":"delete technical QA result",
+            "parameters":[
+               
+            ],
+            "security":[
+               {
+                  "Bearer":[
+                     
+                  ]
+               }
+            ],
+            "requestBody":{
+               "description":"delete technical QA result"
+            },
+            "responses":{
+               "200":{
+                  "description":"technical QA results successfully deleted",
+                  "content":{
+                     "application/json":{
+                        "schema":{
+                           "$ref":"#/components/schemas/deleteTestResultResponse"
+                        }
+                     }
+                  }
+               },
+               "400":{
+                  "description":"Bad request (invalid request body)",
+                  "content":{
+                     
+                  }
+               },
+               "403":{
+                  "description":"User is unauthorized",
+                  "content":{
+                     
+                  }
+               }
+            }
+      }
       },
-      "/tests/testingTheory":{
+      "/tests/theory/random":{
          "get":{
             "tags":[
                "testingTheory"
@@ -377,7 +422,9 @@
                   }
                }
             }
-         },
+         }
+      },
+      "/tests/theory":{
          "post":{
             "tags":[
                "testingTheory"
@@ -428,9 +475,7 @@
                   }
                }
             }
-         }
-      },
-      "/tests/testingTheory/result":{
+         },
          "delete":{
             "tags":[
                "testingTheoryResult"
@@ -452,51 +497,6 @@
             "responses":{
                "200":{
                   "description":"theory testing results successfully deleted",
-                  "content":{
-                     "application/json":{
-                        "schema":{
-                           "$ref":"#/components/schemas/deleteTestResultResponse"
-                        }
-                     }
-                  }
-               },
-               "400":{
-                  "description":"Bad request (invalid request body)",
-                  "content":{
-                     
-                  }
-               },
-               "403":{
-                  "description":"User is unauthorized",
-                  "content":{
-                     
-                  }
-               }
-            }
-         }
-      },
-      "/tests/technicalQA/result":{
-         "delete":{
-            "tags":[
-               "technicalQAResult"
-            ],
-            "summary":"delete technical QA result",
-            "parameters":[
-               
-            ],
-            "security":[
-               {
-                  "Bearer":[
-                     
-                  ]
-               }
-            ],
-            "requestBody":{
-               "description":"delete technical QA result"
-            },
-            "responses":{
-               "200":{
-                  "description":"technical QA results successfully deleted",
                   "content":{
                      "application/json":{
                         "schema":{
